@@ -1,7 +1,7 @@
 #!/bin/sh
 set -xe
 
-if [ -z "$@" ];then
+if [ -z "$1" ];then
   echo "error format. useage: 'npm restart core'"
   exit 1
 fi

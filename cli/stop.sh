@@ -1,7 +1,7 @@
 #!/bin/sh
 set -xe
 
-if [ -z "$@" ];then
+if [ -z "$1" ];then
   docker stack rm $npm_package_name
   exit
 fi

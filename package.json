@@ -6,8 +6,8 @@
     "start"     : "sh ./cli/start.sh",
     "stop"      : "sh ./cli/stop.sh",
     "restart"   : "sh ./cli/restart.sh",
+    "logs"      : "sh ./cli/logs.sh",
     "update"    : "docker stack deploy -c docker-compose.yml $npm_package_name --with-registry-auth",
-    "logs"      : "docker service logs -f ",
     "ls"        : "docker stack services ${npm_package_name}",
     "stats"     : "docker stats $(docker ps --filter name=${npm_package_name} --format='{{.ID}}')",
     "ps"        : "docker ps --filter name=\"${npm_package_name}_\""

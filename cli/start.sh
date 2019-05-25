@@ -1,7 +1,7 @@
 #!/bin/sh
 set -xe
 
-if [ -z "$@" ];then
+if [ -z "$1" ];then
   npm run init
   npm run update
   exit
