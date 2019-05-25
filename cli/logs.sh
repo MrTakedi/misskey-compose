@@ -2,7 +2,7 @@
 set -xe
 
 if [ -z "$1" ];then
-  echo "error format. useage: 'npm run logs init --since 0m'"
+  echo "error format. useage: 'npm run logs -- init --since 0m'"
   exit 1
 fi
 
