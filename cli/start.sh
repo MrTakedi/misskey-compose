@@ -2,7 +2,7 @@
 set -e
 
 if [[ -z "$@" ]];then
-  npm run datadir:init
+  npm run init
   npm run update
   exit
 fi

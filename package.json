@@ -2,7 +2,7 @@
   "name": "misskey",
   "scripts": {
     "swarm:init": " docker swarm init --advertise-addr 127.0.0.1",
-    "init"      : "mkdir -p data/files data/pg",
+    "init"      : "mkdir -p data/files",
     "start"     : "sh ./cli/start.sh",
     "stop"      : "sh ./cli/stop.sh",
     "restart"   : "sh ./cli/restart.sh",

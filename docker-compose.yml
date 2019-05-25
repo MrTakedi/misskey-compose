@@ -1,10 +1,10 @@
 version: '3.6'
 
-networks: 
-  # 可选，你可以把
-  # link:
-  #   external: true
-  #   name: main_link
+# networks: 
+#   可选，你可以把 proxy 和 pg 剥离出去，然后通过 link 网络连接，这个时候连接需要写全服务名称，如 `main_pg`
+#   link:
+#     external: true
+#     name: main_link
 
 services:
 
@@ -29,7 +29,7 @@ services:
     - proxy_hosts:/etc/proxy.d
   logging: { <<: *logging }
   deploy: { <<: *deploy }
-
+  # 可选
   pg:
     image: postgres:11.2-alpine@sha256:b93d17a9c65f135172e1f4b4b5a6ed0155f6c32ab1aa5a5fde0b1cdaef728a41
     volumes:
@@ -39,7 +39,6 @@ services:
       POSTGRES_PASSWORD: 'misskey_stack_password'
     logging: { <<: *logging }
     deploy: { <<: *deploy }
-
     
   init: &misskey
     image: misskey/misskey:11.19.0@sha256:08a9ffa061265cee2cd656d538d94d16b3a6261d3a507ec4fe398d6343fab4fd
@@ -67,11 +66,11 @@ volumes:
 
   caddy:
   proxy_hosts:
-    driver_opts: { type: none, device: /work/data/pg, o: bind }
+    driver_opts: { type: none, device: /misskey/proxy.d, o: bind }
   pg:
-    driver_opts: { type: none, device: /work/data/pg, o: bind }
-  
+
   conf:
-    driver_opts: { type: none, device: /work/misskey/conf, o: bind }
+    driver_opts: { type: none, device: /misskey/conf, o: bind }
+  # 可以换成云存储
   files:
-    driver_opts: { type: none, device: /work/data/misskey_files, o: bind }
+    driver_opts: { type: none, device: /misskey/files, o: bind }
