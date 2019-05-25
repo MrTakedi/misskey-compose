@@ -27,8 +27,8 @@ services:
     volumes: 
     - caddy:/root/.caddy
     - proxy_hosts:/etc/proxy.d
-  logging: { <<: *logging }
-  deploy: { <<: *deploy }
+    logging: { <<: *logging }
+    deploy: { <<: *deploy }
   # 可选
   pg:
     image: postgres:11.2-alpine@sha256:b93d17a9c65f135172e1f4b4b5a6ed0155f6c32ab1aa5a5fde0b1cdaef728a41
@@ -73,4 +73,4 @@ volumes:
     driver_opts: { type: none, device: /misskey/conf, o: bind }
   # 可以换成云存储
   files:
-    driver_opts: { type: none, device: /misskey/files, o: bind }
+    driver_opts: { type: none, device: /misskey/data/files, o: bind }
