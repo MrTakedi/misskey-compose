@@ -1,0 +1,77 @@
+version: '3.6'
+
+networks: 
+  # 可选，你可以把
+  # link:
+  #   external: true
+  #   name: main_link
+
+services:
+
+  redis:
+    image: redis:4.0.14-alpine@sha256:c39398ed9823a8e66702e545eb21f17be17e3f6f736ba3329e10f3e7af36b2f2
+    logging: &logging
+      options: { max-size: "200k", max-file: "10" }
+    deploy:  &deploy
+      replicas: 1
+      endpoint_mode: dnsrr
+      restart_policy: { condition: on-failure, max_attempts: 3 }
+      update_config: { parallelism: 0, failure_action: rollback, max_failure_ratio: 1, order: stop-first }
+  
+  # 可选
+  proxy:
+    image: shynome/caddy:latest@sha256:d74fe72a16012c46fa856c27ec42abb63e034f5e862e26941e3a9b2971bbe451
+    ports: 
+    - { mode: host, protocol: tcp, target: 80, published: 80 }
+    - { mode: host, protocol: tcp, target: 443, published: 443 }
+    volumes: 
+    - caddy:/root/.caddy
+    - proxy_hosts:/etc/proxy.d
+  logging: { <<: *logging }
+  deploy: { <<: *deploy }
+
+  pg:
+    image: postgres:11.2-alpine@sha256:b93d17a9c65f135172e1f4b4b5a6ed0155f6c32ab1aa5a5fde0b1cdaef728a41
+    volumes:
+    - pg:/var/lib/postgresql/data
+    environment: 
+      POSTGRES_USER: 'misskey'
+      POSTGRES_PASSWORD: 'misskey_stack_password'
+    logging: { <<: *logging }
+    deploy: { <<: *deploy }
+
+    
+  init: &misskey
+    image: misskey/misskey:11.19.0@sha256:08a9ffa061265cee2cd656d538d94d16b3a6261d3a507ec4fe398d6343fab4fd
+    # 首次运行需要跑 npm run init 后续不用
+    command: [ "npm", "run", "init" ]
+    volumes:
+    - conf:/misskey/.config/
+    - files:/misskey/files
+    depends_on: [ 'redis' ]
+    logging: { <<: *logging }
+    deploy: &misskey_deploy
+      <<: *deploy
+      replicas: 0
+      restart_policy: { condition: none }
+  # 后续迁移会可能会用到这个服务
+  migrate:
+    <<: *misskey
+    command: [ "npm", "run", "migrate" ]
+  core:
+    <<: *misskey
+    command: [ "npm", "run", "start" ]
+
+
+volumes: 
+
+  caddy:
+  proxy_hosts:
+    driver_opts: { type: none, device: /work/data/pg, o: bind }
+  pg:
+    driver_opts: { type: none, device: /work/data/pg, o: bind }
+  
+  conf:
+    driver_opts: { type: none, device: /work/misskey/conf, o: bind }
+  files:
+    driver_opts: { type: none, device: /work/data/misskey_files, o: bind }
