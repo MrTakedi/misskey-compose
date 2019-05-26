@@ -41,7 +41,7 @@ services:
     deploy: { <<: *deploy }
     
   init: &misskey
-    image: misskey/misskey:11.19.0@sha256:08a9ffa061265cee2cd656d538d94d16b3a6261d3a507ec4fe398d6343fab4fd
+    image: misskey/misskey:11.19.1@sha256:b5023d961d0b37ba0cd33a92cfbaabfb7deb19b286895ce68b136ba389256cf1
     # 首次运行需要跑 npm run init 后续不用
     command: [ "npm", "run", "init" ]
     volumes:
