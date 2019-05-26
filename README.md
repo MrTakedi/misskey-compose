@@ -20,7 +20,7 @@
 1. `git clone https://github.com/shynome/misskey-compose.git /misskey && cd /misskey`
 1.  1. 编辑配置文件
     1. 编辑 `docker-compose.yml`     
-      `proxy`(caddy web server) 这个如果你有其他前置代理的话可以去掉，直接使用你自己的前置代理
+      `proxy`(caddy web server) 这个如果你有其他前置代理的话可以去掉，直接使用你自己的前置代理    
       `pg` (postgres数据库) 可更换成云数据库，数据库现在是弱密码建议修改    
       `files` 容器卷可更换成云服务的 `nfs` 或 `cifs` 之类的云存储
     1.  `cp conf/example.default.yml conf/default.yml` 开始编辑配置文件 `conf/default.yml`    
