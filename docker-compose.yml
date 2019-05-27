@@ -34,6 +34,8 @@ services:
     image: postgres:11.2-alpine@sha256:b93d17a9c65f135172e1f4b4b5a6ed0155f6c32ab1aa5a5fde0b1cdaef728a41
     volumes:
     - pg:/var/lib/postgresql/data
+    ports: 
+    - { mode: host, protocol: tcp, target: 5432, published: 5432 }
     environment: 
       POSTGRES_USER: 'misskey'
       POSTGRES_PASSWORD: 'misskey_stack_password'
@@ -41,7 +43,7 @@ services:
     deploy: { <<: *deploy }
     
   init: &misskey
-    image: misskey/misskey:11.19.1@sha256:b5023d961d0b37ba0cd33a92cfbaabfb7deb19b286895ce68b136ba389256cf1
+    image: misskey/misskey:11.20.0@sha256:f42c0936543d2e7feae6658be415442abc90237cca3ed2c915b2e5237944c0ac
     # 首次运行需要跑 npm run init 后续不用
     command: [ "npm", "run", "init" ]
     volumes:

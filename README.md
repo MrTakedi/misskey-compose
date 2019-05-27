@@ -5,7 +5,7 @@
 ### misskey 我无法解决的问题
 
 - 浏览器通知不能正常工作 https://github.com/syuilo/misskey/issues/3228
-- 设置-隐私-autoAcceptFollowed 显示的状态永远是 false ， 但是数据库里已经修改了
+- <del>设置-隐私-autoAcceptFollowed 显示的状态永远是 false ， 但是数据库里已经修改了</del> (11.20.0 解决了)
 
 ### 前置条件
 
