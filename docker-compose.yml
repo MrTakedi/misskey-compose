@@ -22,8 +22,8 @@ services:
   proxy:
     image: shynome/caddy:latest@sha256:d74fe72a16012c46fa856c27ec42abb63e034f5e862e26941e3a9b2971bbe451
     ports: 
-    - { mode: host, protocol: tcp, target: 80, published: 80 }
-    - { mode: host, protocol: tcp, target: 443, published: 443 }
+    - { mode: host, protocol: tcp, target: 8089, published: 8089 }
+    - { mode: host, protocol: tcp, target: 4439, published: 4439 }
     volumes: 
     - caddy:/root/.caddy
     - proxy_hosts:/etc/proxy.d
